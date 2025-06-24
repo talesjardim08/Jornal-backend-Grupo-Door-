@@ -2,7 +2,7 @@ const express = require('express');
 const db = require('../db');
 const path = require('path');
 const multer = require('multer');
-const verificarToken = require('../middlewares/authMiddlewares');
+const verificarToken = require('../middlewares/authmiddlewares');
 const router = express.Router();
 
 // Configuração de upload
