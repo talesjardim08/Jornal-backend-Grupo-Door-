@@ -1,6 +1,6 @@
 const express = require('express');
 const db = require('../db');
-const verificarToken = require('../middlewares/authMiddlewares');
+const verificarToken = require('../middlewares/authmiddlewares');
 const router = express.Router();
 
 // Listar todos os temas (público)
