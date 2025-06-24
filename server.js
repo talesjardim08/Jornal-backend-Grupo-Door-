@@ -15,7 +15,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/noticias', require('./routes/noticia'));
 app.use('/api/temas', require('./routes/temas'));
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
   console.log(` Servidor rodando em ${PORT}`);
 });
