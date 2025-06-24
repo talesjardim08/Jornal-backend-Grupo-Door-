@@ -1,37 +1,20 @@
 const express = require('express');
 const db = require('../db');
-const path = require('path');
-const multer = require('multer');
 const verificarToken = require('../middlewares/authmiddlewares');
 const router = express.Router();
 
-// Configuração de upload
-const storage = multer.diskStorage({
-  destination: './uploads/',
-  filename: (req, file, cb) => {
-    const nomeArquivo = Date.now() + path.extname(file.originalname);
-    cb(null, nomeArquivo);
-  }
-});
-const upload = multer({ storage });
 
-// Criar notícia (protegida)
-router.post('/criar', verificarToken, upload.fields([
-  { name: 'imagem_capa' },
-  { name: 'imagem_extra' }
-]), (req, res) => {
-  const { titulo, conteudo, id_tema } = req.body;
+// Criar notícia
+router.post('/criar', verificarToken, (req, res) => {
+  const { titulo, conteudo, id_tema, imagem_capa, imagem_extra } = req.body;
 
   if (req.usuario.tipo !== 'redator') {
     return res.status(403).json({ erro: 'Apenas redatores podem publicar notícias' });
   }
 
-  const imagem_capa = req.files['imagem_capa']?.[0]?.path || null;
-  const imagem_extra = req.files['imagem_extra']?.[0]?.path || null;
-
   const sql = `
-    INSERT INTO noticias (id_tema, id_redator, titulo, imagem_capa, conteudo, imagem_extra)
-    VALUES (?, ?, ?, ?, ?, ?)
+    INSERT INTO noticias (id_tema, id_redator, titulo, imagem_capa, conteudo, imagem_extra, publicado_em)
+    VALUES (?, ?, ?, ?, ?, ?, NOW())
   `;
 
   db.query(sql, [id_tema, req.usuario.id, titulo, imagem_capa, conteudo, imagem_extra], (err) => {
