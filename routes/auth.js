@@ -42,6 +42,9 @@ router.post('/register/:tipo', async (req, res) => {
 
 // Login para Leitor ou Redator
 router.post('/login/:tipo', (req, res) => {
+  if (!req.body || !req.body.email || !req.body.senha) {
+    return res.status(400).json({ erro: 'Email e senha são obrigatórios' });
+  }
   const { email, senha } = req.body;
   const tipo = req.params.tipo.toLowerCase();
 
