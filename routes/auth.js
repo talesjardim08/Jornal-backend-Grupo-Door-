@@ -42,6 +42,8 @@ router.post('/register/:tipo', async (req, res) => {
 
 // Login para Leitor ou Redator
 router.post('/login/:tipo', (req, res) => {
+  console.log('📦 Body recebido:', req.body); //debugging
+  console.log('🧪 Content-Type:', req.headers['content-type']); //debugging
   if (!req.body || !req.body.email || !req.body.senha) {
     return res.status(400).json({ erro: 'Email e senha são obrigatórios' });
   }
