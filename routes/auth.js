@@ -74,9 +74,12 @@ router.post('/login/:tipo', (req, res) => {
 
     const token = jwt.sign(payload, SECRET, { expiresIn: '2h' });
 
+
+    const id_usuario = usuario[`id_${tipo}`];
     return res.json({
       token,
-      nome: usuario.nome
+      nome: usuario.nome,
+       id: id_usuario
     });
   });
 });
